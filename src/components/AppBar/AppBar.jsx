@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    color: theme.palette.secondary.main
   },
   appbarDark: {
     backgroundColor: theme.palette.background.default
@@ -44,7 +45,7 @@ const AppNavBar = (props) => {
           <Typography variant="h6" className={classes.title}>
             Quexl Chat
           </Typography>
-          <Auth open={open} anchorEl={anchorEl} handleClose={handleClose} handleMenu={handleMenu} handleToogleTheme={handleToogleTheme}/>
+          <Auth open={open} anchorEl={anchorEl} activeTheme={activeTheme} handleClose={handleClose} handleMenu={handleMenu} handleToogleTheme={handleToogleTheme}/>
         </Toolbar>
       </AppBar>
     </div>
