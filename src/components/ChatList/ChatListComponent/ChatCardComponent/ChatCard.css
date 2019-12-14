@@ -1,0 +1,45 @@
+.chat-card-item {
+    margin: 5px !important;
+}
+
+.chat-card-paper-item {
+    padding: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+    border-width: thin;
+    border-style: solid;
+}
+
+.chat-card-username {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.chat-card-info {
+    margin-left: 10px;
+    flex-grow: 1;
+}
+
+.chat-card-container {
+    flex-wrap: nowrap !important;
+}
+
+.chat-card-unread-count {
+    width: 25px !important;
+    height: 25px !important;
+    margin: 5px !important;
+}
+
+.chat-card-mgs-status {
+    color: yellow;
+    font-size: 15px;
+    padding-left: 5px;
+}
+
+.chat-card-msg-count {
+    margin-left: auto !important;
+}
+
+.chat-card-msg-text-caption {
+    max-width: 115px;
+}
