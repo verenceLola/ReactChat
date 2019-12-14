@@ -4,6 +4,7 @@ import ProfileAvatar from '../ProfileAvatar/ProfileAvatar'
 import Moment from 'react-moment'
 import { from } from 'rxjs/observable/from'
 import moment from 'moment'
+import SendMessageComponent from '../SendMessage/SendMessageComponent'
 
 const useChatContentStyles = makeStyles(theme => ({
     container: {
@@ -36,14 +37,19 @@ const ChatContent = ( {messages, currentUser: {email}} ) => {
     ).subscribe(
         components => Messages.push(components)
     )
+    
     return (
         <Grid item xs className={containerClasses.container}>
             <Grid container direction='column' spacing={2}>
                 {Messages}
+                <Grid item>
+                    <SendMessageComponent />
+                </Grid>
             </Grid>
         </Grid>
     )
 }
+
 
 const useMessageContentStyles = makeStyles({
     msgBody: {
