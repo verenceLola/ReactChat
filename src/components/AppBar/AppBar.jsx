@@ -1,31 +1,24 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Auth from '../Auth/Auth';
+import AppBar from "@material-ui/core/AppBar";
+import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
+
+import Auth from "../Auth/AuthComponent/AuthComponent";
+
+import "./AppBar.css";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  title: {
-    flexGrow: 1,
-    color: theme.palette.secondary.main
-  },
-  appbarDark: {
-    backgroundColor: theme.palette.background.default
-  },
   appbarDefault: {
-    backgroundColor: theme.palette.primary.main
-  }
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
 
-const AppNavBar = (props) => {
+const AppNavBar = ({ theme: activeTheme, toggleDarkTheme }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const {theme: activeTheme, activateDarkTheme, deactivateDarkTheme} = props
+
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,22 +27,30 @@ const AppNavBar = (props) => {
     setAnchorEl(null);
   };
 
-  const handleToogleTheme = () => {
-    activeTheme === 'dark' ? deactivateDarkTheme() : activateDarkTheme()
-  }
-
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={activeTheme === 'dark' ? classes.appbarDark : classes.appbarDefault}>
+    <div className={"appBar-container"}>
+      <AppBar
+        position="static"
+        className={
+          activeTheme === "dark" ? classes.appbarDark : classes.appbarDefault
+        }>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Quexl Chat
+          <Typography variant="h6" className={"appbar-title"}>
+            {" "}
+            Quexl Chat{" "}
           </Typography>
-          <Auth open={open} anchorEl={anchorEl} activeTheme={activeTheme} handleClose={handleClose} handleMenu={handleMenu} handleToogleTheme={handleToogleTheme}/>
+          <Auth
+            open={open}
+            anchorEl={anchorEl}
+            activeTheme={activeTheme}
+            handleClose={handleClose}
+            handleMenu={handleMenu}
+            handleToogleTheme={toggleDarkTheme}
+          />
         </Toolbar>
       </AppBar>
     </div>
   );
-}
+};
 
 export default AppNavBar;

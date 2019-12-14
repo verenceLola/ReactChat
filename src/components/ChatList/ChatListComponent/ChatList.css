@@ -1,0 +1,14 @@
+.chat-list-container {
+    padding: 5px ;
+    height: 100%;
+}
+
+.chat-list-searchItem {
+    flex-grow: 0;
+}
+
+.chat-list-main-container {
+    height: 100%;
+    overflow: auto;
+    flex-wrap: nowrap !important;
+}

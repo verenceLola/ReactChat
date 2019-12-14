@@ -1,12 +1,7 @@
-import { 
-    ACTIVATE_DARK_THEME, 
-    ACTIVATE_DEFAULT_THEME
-} from "./types"
+import { TOGGLE_DARK_THEME } from "./types";
 
-export const activateDarkTheme = () => ({
-    type: ACTIVATE_DARK_THEME
-})
+const toggleDarkTheme = () => ({
+  type: TOGGLE_DARK_THEME,
+});
 
-export const activateDefaultTheme = () => ({
-    type: ACTIVATE_DEFAULT_THEME
-})
+export { toggleDarkTheme };

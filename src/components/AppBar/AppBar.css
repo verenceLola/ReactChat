@@ -1,0 +1,7 @@
+.appBar-container {
+    flex-grow: 0;
+}
+
+.appbar-title {
+    flex-grow: 1;
+}

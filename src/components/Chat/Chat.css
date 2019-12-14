@@ -1,0 +1,12 @@
+.chat-container {
+    flex-grow: 1;
+    height: 86%;
+}
+
+.profile-item {
+    flex-grow: 0.05;
+}
+
+.profile-container {
+    height: 100%;
+}

@@ -1,0 +1,19 @@
+.submitButton {
+    color: white !important;
+}
+
+.submitButton:hover {
+    color: black !important;
+}
+
+.textPaper {
+    padding: 5;
+}
+
+.MuiButton-contained {
+    color: yellow;
+}
+
+.paper {
+    flex-grow: 1;
+}

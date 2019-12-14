@@ -1,0 +1,26 @@
+.msg-content-msgbody {
+    border-radius: 10px !important;
+    padding: 5px;
+    margin: 5px;
+}
+
+.msg-content-msgcontainer {
+    height: 100%;
+    padding: 5px;
+}
+
+.msg-content-contentwrapper {
+    flex-wrap: nowrap !important;
+}
+
+.msg-content-fromsender {
+    justify-content: flex-start;
+    padding-left: 50px;
+    padding-right: 0;
+}
+
+.msg-content-tosender {
+    justify-content: flex-end;
+    padding-left: 0;
+    padding-right: 50px;
+}
