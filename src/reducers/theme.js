@@ -1,7 +1,7 @@
 import { ACTIVATE_DEFAULT_THEME, ACTIVATE_DARK_THEME } from "../actions/Theme/types";
 
 const INITIAL_STATE = {
-    dark: false
+    dark: true
 }
 
 export default (state=INITIAL_STATE, action) => {

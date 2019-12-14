@@ -11,6 +11,7 @@ import { of } from 'rxjs/observable/of';
 import { map, merge } from 'rxjs/operators';
 import { activateDarkTheme, activateDefaultTheme } from "../actions/Theme/theme";
 import { scan } from 'rxjs/operators';
+import Chat from "../components/Chat/Chat";
 
 const App = (props) => {
     const {theme: activeTheme} = props
@@ -31,6 +32,7 @@ const App = (props) => {
         <>
         <ThemeProvider theme={theme}>
             <AppBar {...props}/>
+            <Chat />
         </ThemeProvider>
         </>
     )
