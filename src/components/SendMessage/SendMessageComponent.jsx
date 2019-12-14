@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     input: {
       marginLeft: theme.spacing(1),
       flex: 1,
+      fontSize: 'medium'
     },
     iconButton: {
       padding: 10,
@@ -44,18 +45,24 @@ const SendMessageComponent = ({sendMessage}) => {
     const handleOnChange = ({target: { value }}) => {
         setMessage(value)
     }
-    const handleEmojiSelect = () => {
+
+    const handleEmojiSelect = ({ native: emoji },{ event }) => {
+        setMessage(`${message}${emoji}`)
+        setEmojiPickerOpen(false)
+    }
+    const handleEmojiPicker = () => {
         setEmojiPickerOpen(!emojiPickerOpen)
     }
-    const onSendMessage = (event) => {
+    const onSendMessage = event => {
         event.preventDefault()
-        console.log('sending message')
+        sendMessage(message)
+        setMessage('')
     }
     const EmojiPicker = () => (
         <Manager>
             <Reference>
                 {({ ref }) => (
-                    <EmojiEmotionsIcon ref={ref} fontSize='large' style={{cursor: 'pointer'}} onClick={handleEmojiSelect} />
+                    <EmojiEmotionsIcon ref={ref} fontSize='large' style={{cursor: 'pointer'}} onClick={handleEmojiPicker} />
                 )}
             </Reference>
             <Popper placement="top-end" eventsEnabled={false}>
@@ -63,7 +70,7 @@ const SendMessageComponent = ({sendMessage}) => {
                     <div ref={ref} style={emojiPickerOpen ? style : {display: 'none'}} data-placement={placement}>
                         <ClickAwayListener onClickAway={closeEmojiPicker}>
                             <Grow in={emojiPickerOpen}>
-                                <Picker title='Quexl Chat'/>
+                                <Picker title='Quexl Chat' onClick={handleEmojiSelect} />
                             </Grow>
                         </ClickAwayListener>
                         <div ref={arrowProps.ref} style={arrowProps.style} />
@@ -77,7 +84,7 @@ const SendMessageComponent = ({sendMessage}) => {
             <EmojiPicker />
             <InputBase
                 className={classes.input}
-                placeholder="Type message to send ..."
+                placeholder="Type your message here ..."
                 fullWidth
                 onChange={handleOnChange}
                 value={message}

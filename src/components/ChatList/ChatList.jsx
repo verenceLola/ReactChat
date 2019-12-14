@@ -19,30 +19,33 @@ const useContainerStyles = makeStyles(theme => ({
 
 const ChatList = ( {chats, currentUser: {username}, activeChat, handleOnChatSelect} ) => {
     const classes = useContainerStyles()
-    let ChatCards = []
-    from(chats)
-    .map(
-        (chatItem, index) => {
-            let latestMsg, unreadCount = 0
-            const msgObservable = from(chatItem.messages.sort((a, b) => {
-                const timeA = moment(a.sent_at)
-                const timeB = moment(b.sent_at)
-                if (timeA.isBefore(timeB)) {
-                    return 1
-                } else if (timeA.isSame(timeB)){
-                    return 0
-                } else {
-                    return -1
-                }
-            }))
-            msgObservable.first()
-                .subscribe( msg => latestMsg = msg)
-            return <ChartCard onClick={handleOnChatSelect} chatID={chatItem.id} latestMsg={latestMsg} active={chatItem.id === activeChat} currentUser={username} key={index} />
-        }
-    )
-    .subscribe(
-        card => ChatCards.push(card)
-    )
+
+    const ChatCards = React.useMemo(() => {
+        let cards = []
+        from(chats)
+        .map(
+            (chatItem, index) => {
+                let latestMsg
+                const msgObservable = from(chatItem.messages.sort((a, b) => {
+                    const timeA = moment(a.sent_at)
+                    const timeB = moment(b.sent_at)
+                    if (timeA.isBefore(timeB)) {
+                        return 1
+                    } else if (timeA.isSame(timeB)){
+                        return 0
+                    } else {
+                        return -1
+                    }
+                }))
+                msgObservable.take(1)
+                    .subscribe( msg => latestMsg = msg)
+                return <ChatCard onClick={handleOnChatSelect} chatID={chatItem.id} latestMsg={latestMsg} active={chatItem.id === activeChat.id} currentUser={username} key={index} />
+            }
+        )
+        .subscribe(card => cards = [...cards, [card]])
+        return cards
+    }, [activeChat.id, chats, handleOnChatSelect, username])
+
     return (
         <Grid item >
             <Grid container direction='column' spacing={1} className={classes.container}>
@@ -156,7 +159,10 @@ const useChatCardStyles = makeStyles(theme => ({
     }
 }))
 
-const ChartCard = ({ latestMsg: {text, sender: {username, email}, sent_at, }, chatID, active, currentUser:  currentUserNsername, onClick }) => {
+const ChatCard = ({ 
+    latestMsg: {text, sender: {username, email} = {}, sent_at } = {},
+    chatID, active, currentUser:  currentUserNsername, onClick
+ }) => {
     const classes = useChatCardStyles()
     const handleOnClick = () => {
         onClick(chatID)

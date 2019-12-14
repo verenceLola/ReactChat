@@ -25,13 +25,12 @@ const App = (props) => {
                 fontSize: 12,
             },
         }
-    ),
-    [activeTheme]
-    )
+    ),[activeTheme])
+
     return (
         <>
         <ThemeProvider theme={theme}>
-            <AppBar {...props}/>
+            <AppBar  {...props}/>
             <Chat />
         </ThemeProvider>
         </>

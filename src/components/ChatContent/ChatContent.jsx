@@ -3,30 +3,48 @@ import { Grid, makeStyles, Typography, Paper, Container } from '@material-ui/cor
 import ProfileAvatar from '../ProfileAvatar/ProfileAvatar'
 import Moment from 'react-moment'
 import { from } from 'rxjs/observable/from'
-import moment from 'moment'
 import SendMessageComponent from '../SendMessage/SendMessageComponent'
+import { observe, streamProps } from 'frint-react'
+import { subscribeNewMessage, sendGroupMessage, sendMessage } from "../../actions/Chat/chat";
 
 const useChatContentStyles = makeStyles(theme => ({
     container: {
-        flexGrow: 1
+        flexGrow: 1,
+        overflow: 'auto',
+        height: '100%',
+    },
+    msgContainer: {
+        flexGrow: 1,
+        flexShrink: 1,
+        height: '81.9%',
+    },
+    msgListContainer: {
+        overflow: 'auto',
+        height: '100%',
+        flexDirection: 'column-reverse',
+        display: 'flex',
+    },
+    mainContainer: {
+        height: '100%', 
+        width: '100%', 
+        flexWrap: 'nowrap',
+    },
+    participantAvatar: {
+        cursor: 'pointer'
     }
 }))
 
 
-const ChatContent = ( {messages, currentUser: {email}} ) => {
+const ChatContent = ( { 
+    selectedChat: { participants = [], members, messages = [], group_name }, 
+    currentUser: {email}, subscribeNewMessage, webSocketSubject,
+    sendMessage, sendGroupMessage
+} ) => {
     const containerClasses = useChatContentStyles()
     let Messages = []
-    from(messages.sort((a, b) => {
-        const timeA = moment(a.sent_at)
-        const timeB = moment(b.sent_at)
-        if (timeA.isBefore(timeB)) {
-            return -1
-        } else if (timeA.isSame(timeB)){
-            return 0
-        } else {
-            return 1
-        }
-    })).map(
+    const sendTo = React.useMemo(() => participants.find(user => user.email !== email), [participants, email])
+
+    from(messages).map(
         (message, index) => {
             return (
                 message.sender.email === email
@@ -37,13 +55,41 @@ const ChatContent = ( {messages, currentUser: {email}} ) => {
     ).subscribe(
         components => Messages.push(components)
     )
-    
+
+    React.useEffect(() => {
+        if (webSocketSubject) {
+            subscribeNewMessage(webSocketSubject.dm)
+            subscribeNewMessage(webSocketSubject.group)
+        }
+    }, [webSocketSubject, subscribeNewMessage])
+
+    const sendNewMessage = message => {
+        sendMessage(webSocketSubject.dm, {message, to: sendTo.username})
+    }
+
+    const sendNewGroupMessage = message => {
+        sendGroupMessage(webSocketSubject.group, {message, group: group_name})
+    }
+
     return (
         <Grid item xs className={containerClasses.container}>
-            <Grid container direction='column' spacing={2}>
-                {Messages}
+            <Grid container direction='column' className={containerClasses.mainContainer} spacing={2}>
+                <Grid item style={{margin: 5}}>
+                    <Grid container spacing={1}>
+                        {members ? members.filter((member => member.email !== email)).map(
+                            member => <Grid item className={containerClasses.participantAvatar} ><Participant user={member} /></Grid>
+                        ) : participants.filter((participant => participant.email !== email)).map(
+                            participant => <Grid item><Participant user={participant} /></Grid>
+                        )}
+                    </Grid>
+                </Grid>
+                <Grid item className={containerClasses.msgContainer}>
+                    <Container className={containerClasses.msgListContainer}>
+                        {Messages}
+                    </Container>
+                </Grid>
                 <Grid item>
-                    <SendMessageComponent />
+                    <SendMessageComponent sendMessage={group_name ? sendNewGroupMessage : sendNewMessage } />
                 </Grid>
             </Grid>
         </Grid>
@@ -53,7 +99,7 @@ const ChatContent = ( {messages, currentUser: {email}} ) => {
 
 const useMessageContentStyles = makeStyles({
     msgBody: {
-        borderRadius: 15,
+        borderRadius: 10,
         padding: 5,
         margin: 5,
     },
@@ -105,4 +151,16 @@ const MessageContent = ({content: {text, sent_at, sender}, fromSender = false}) 
         </Grid>
     )
 }
-export default ChatContent;
+
+const Participant = ({user}) => <ProfileAvatar loadProfile user={user} />
+
+export default observe(app => streamProps().set(
+    app.get('store').getState$(),
+    state => ({}))
+    .setDispatch({
+        subscribeNewMessage,
+        sendMessage: (subject, payload) => sendMessage(subject, payload),
+        sendGroupMessage: (subject, payload) => sendGroupMessage(subject, payload),
+    }, app.get('store'))
+    .get$()
+)(ChatContent);

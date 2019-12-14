@@ -3,7 +3,8 @@ import { FETCHING_PROFILE_DETAILS, FETCH_PROFILE_FAILED, FETCH_PROFILE_SUCCESS }
 const INITIAL_STATE = {
     loading: false,
     details: {},
-    fetchingProfileFailed: {}
+    fetchingProfileFailed: {},
+    profileFetched: false,
 }
 
 export default (state=INITIAL_STATE, action) => {
@@ -13,7 +14,7 @@ export default (state=INITIAL_STATE, action) => {
         case FETCH_PROFILE_FAILED:
             return {...state, fetchingProfileFailed: {...state.fetchingProfileFailed, message: action.message, error: action.error}}
         case FETCH_PROFILE_SUCCESS:
-            return {...state, details: action.details}    
+            return {...state, details: action.details, profileFetched: true}    
         default:
             return state
     }

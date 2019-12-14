@@ -46,6 +46,7 @@
     "jest-watch-typeahead": "0.4.0",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
+    "logrocket": "^1.0.5",
     "material-ui-form": "^1.0.0-alpha.26",
     "md5": "^2.2.1",
     "mini-css-extract-plugin": "0.8.0",
@@ -75,8 +76,8 @@
     "url-loader": "2.1.0",
     "webpack": "4.41.0",
     "webpack-dev-server": "3.2.1",
-    "webpack-manifest-plugin": "2.1.1",
-    "workbox-webpack-plugin": "4.3.1"
+    "webpack-manifest-plugin": "^2.2.0",
+    "workbox-webpack-plugin": "^4.3.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

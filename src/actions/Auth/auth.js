@@ -62,7 +62,7 @@ export const loginUser = ({email: {value: email}, password: {value: password }})
         .delay(30)
         .subscribe(
             response => {
-                const {data: { message, token }} = response
+                const {data: { message, meta: {token} }} = response
                 dispatch(loginSuccess(message))
                 Cookies.set('jwt-token', `Bearer ${token}`)  // save jwt token
             },

@@ -7,7 +7,7 @@ import Auth from '../Auth/Auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 0,
   },
   title: {
     flexGrow: 1,
