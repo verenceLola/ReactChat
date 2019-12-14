@@ -210,8 +210,8 @@ const SignupForm = ({errors, message, loading, signUpDetails, setSignupDetails})
                 <FormHelperText className={classes.helperText} >{message}</FormHelperText>
                 <TextField helperText={errors.email} error={errors.email !== undefined} disabled={loading} value={signUpDetails.email.value} onChange={handleSignUpDetails('email')} className={classes.formInputs} fullWidth variant='outlined' label='Email Address' />
                 <TextField helperText={errors.username} error={errors.username !== undefined} disabled={loading} value={signUpDetails.username.value} onChange={handleSignUpDetails('username')} className={classes.formInputs} fullWidth variant='outlined' label='Username' />
-                <TextField helperText={errors.password} error={errors.password !== undefined} disabled={loading} value={signUpDetails.password.value} onChange={handleSignUpDetails('password')} className={classes.formInputs} fullWidth variant='outlined' label='Password' />
-                <TextField disabled={loading} value={signUpDetails.confirm_password.value} onChange={handleSignUpDetails('confirm_password')} className={classes.formInputs} fullWidth variant='outlined' label='Confirm Password' />
+                <TextField helperText={errors.password} error={errors.password !== undefined} disabled={loading} value={signUpDetails.password.value} onChange={handleSignUpDetails('password')} className={classes.formInputs} fullWidth variant='outlined' type='password' label='Password' />
+                <TextField disabled={loading} value={signUpDetails.confirm_password.value} onChange={handleSignUpDetails('confirm_password')} className={classes.formInputs} fullWidth variant='outlined' type='password' label='Confirm Password' />
             </FormControl>
         </>
     )
