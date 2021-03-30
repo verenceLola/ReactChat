@@ -39,6 +39,7 @@ const ObservableApp = observe(app => {
   const actionProps$ = of({
     toggleDarkTheme: (...args) => store.dispatch(toggleDarkTheme(...args)),
   });
+
   return stateProps$.pipe(
     merge(actionProps$),
     scan((props, emitted) => ({ ...props, ...emitted })),
